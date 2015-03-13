@@ -1,0 +1,66 @@
+.w-pdf {
+	background-position: 0 -32px;
+}
+
+.w-html {
+	background-position: 0 -48px;
+}
+
+.w-image {
+	background-position: 0 -64px;
+}
+
+.tree-file {
+	background: url('../images/icons/document-code.png') no-repeat;
+}
+
+.tree-folder-open {
+	background: url('../images/icons/folder-horizontal-open.png') no-repeat !important;
+}
+.tree-folder {
+	background: url('../images/icons/folder-horizontal.png') no-repeat;
+}
+
+.icon-binary{
+	background: url('../images/icons/document-binary.png') no-repeat;
+}
+
+.icon-code{
+	background: url('../images/icons/document-code.png') no-repeat;
+}
+
+.icon-film{
+	background: url('../images/icons/document-film.png') no-repeat;
+}
+
+.icon-image{
+	background: url('../images/icons/document-image.png') no-repeat;
+}
+
+.icon-music{
+	background: url('../images/icons/document-music.png') no-repeat;
+}
+
+.icon-office{
+	background: url('../images/icons/document-office.png') no-repeat;
+}
+
+.icon-pdf{
+	background: url('../images/icons/document-pdf.png') no-repeat;
+}
+
+.icon-php{
+	background: url('../images/icons/document-php.png') no-repeat;
+}
+
+.icon-text{
+	background: url('../images/icons/document-text.png') no-repeat;
+}
+
+.icon-visual-studio{
+	background: url('../images/icons/document-visual-studio.png') no-repeat;
+}
+
+.icon-zipper{
+	background: url('../images/icons/document-zipper.png') no-repeat;
+}

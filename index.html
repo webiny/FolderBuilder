@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webiny Structure Builder</title>
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="css/webiny/fontello.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_style.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_general.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_elements.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_buttons.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_inputs.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_modal.css">
+    <link rel="stylesheet" type="text/css" href="css/webiny/webiny_tooltip.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/icons.css">
+
+    <script type="text/javascript" src="lib/deps/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/deps/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/deps/jquery.draggable.js"></script>
+    <script type="text/javascript" src="lib/deps/jquery.droppable.js"></script>
+    <script type="text/javascript" src="lib/deps/jquery.parser.js"></script>
+    <script type="text/javascript" src="lib/deps/jquery.tree.js"></script>
+    <script type="text/javascript" src="lib/deps/shortcut.js"></script>
+    <script type="text/javascript" src="lib/tree.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.js"></script>
+</head>
+<body>
+<div class="master minimized">
+    <div class="master-navigation">
+        <div class="navbar navbar-inverse" role="navigation">
+            <div class="navbar-header">
+                <a href="http://www.webiny.com" class="logo"><img src="images/logo.png" width="62" height="20" alt="Webiny"></a>
+                <div class="title">Folder Builder</div>
+            </div>
+            <div class="social-icons">
+                <a href="https://github.com/Webiny/FolderBuilder" target="_blank" class="github">
+                    <img src="images/github.png" width="40" height="40">
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="master-content container-fluid">
+    <div class="actions">
+        <button id="add-directory" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top"
+                data-original-title="Ctrl+D">Add folder
+        </button>
+        <button id="add-file" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top"
+                data-original-title="Ctrl+F">Add file
+        </button>
+        <button id="save-structure" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top"
+                data-original-title="Ctrl+S">Save structure
+        </button>
+        <button id="load-structure" class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="top"
+                data-original-title="Ctrl+L">Load structure
+        </button>
+        <button id="delete-item" class="btn btn-primary disabled" type="submit" data-toggle="tooltip"
+                data-placement="top"
+                data-original-title="Del (Win) / Fn+Backspace (Mac)">Delete item
+        </button>
+        <button id="collapse-all" style="float:right" class="btn btn-primary" type="submit">Collapse All</button>
+        <button id="expand-all" style="float:right" class="btn btn-primary" type="submit">Expand All</button>
+    </div>
+    <textarea class="form-control" id="load-json" style="width:100%; min-height:100px; display:none"
+              placeholder="Paste your JSON data"></textarea>
+    <textarea class="form-control" id="save-json" style="width:100%; min-height:100px; display:none"></textarea>
+
+    <div class="tree-container">
+        <ul id="tree"></ul>
+    </div>
+</div>
+<!-- Modals -->
+<div class="modal" id="delete-confirmation" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Delete item</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <p>Are you sure you want to delete this item?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No, wait.</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="delete-item-confirm">Yes, I'm
+                    sure!
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="folder-empty" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Folder '<span class="empty-folder-name"></span>' is now empty</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <p>Would you like to convert it to file?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default">No</button>
+                <button type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="add-directory-modal" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>New folder</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-sm form-horizontal">
+                    <div class="row">
+                        <div class="porlet ">
+                            <div class="porlet-header">
+                                <h3><i class="icon icon-info"></i>HINT: Create multiple and/or nested folders at once</h3>
+                            </div>
+                            <div class="porlet-body">
+                                <p>
+                                    <strong>Nested:</strong> App/Configs/Production<br>
+                                    <strong>Multiple:</strong> App,Configs,Logs<br>
+                                    <strong>Combined:</strong> App/Uploads,Configs,Logs
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Folder name</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" autofocus="autofocus">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Add folder</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal" id="add-file-modal" tabindex="-1" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>New file</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-sm form-horizontal">
+                    <div class="row">
+                        <div class="porlet ">
+                            <div class="porlet-header">
+                                <h3><i class="icon icon-info"></i>HINT: Create multiple files with nested folders</h3>
+                            </div>
+                            <div class="porlet-body">
+                                <p>
+                                    <strong>Nested:</strong> App/Configs/Production/Main.yaml<br>
+                                    <strong>Multiple:</strong> index.php,config.json,readme.md<br>
+                                    <strong>Combined:</strong> App/Uploads/logo.png,Configs/Main.yaml,Logs/access.log
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">File name</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" autofocus="autofocus">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Add file</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /Modals -->
+</body>
+</html>
