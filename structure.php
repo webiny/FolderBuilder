@@ -123,7 +123,7 @@ class Structure
 
 echo "Starting\n";
 
-$rootFolder = isset($argv[1]) ? $argv[1] : __DIR__;
+$rootFolder = isset($argv[1]) ? $argv[1] : getcwd();
 $depth = isset($argv[2]) ? $argv[2] : 0;
 $structure = new Structure();
 $data = $structure->buildStructure($rootFolder, $depth);
