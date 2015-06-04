@@ -34,8 +34,13 @@ class Structure
     function buildStructure($rootFolder, $depth)
     {
         self::$depth = $depth;
+        $structure = [];
 
-        return $this->_recursiveRead(realpath($rootFolder));
+        if (($path = realpath($rootFolder)) !== false) {
+            $structure = $this->_recursiveRead($path);
+        }
+
+        return $structure;
     }
 
     private function _recursiveRead($directory)
