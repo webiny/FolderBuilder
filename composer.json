@@ -1,0 +1,13 @@
+{
+    "name": "webiny/folderbuilder",
+    "description": "FolderBuilder turns existing directory trees into JSON for use on http://fb.webiny.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pavel Denisjuk",
+            "email": "pavel@webiny.com"
+        }
+    ],
+    "bin": ["bin/wfb"],
+    "require": {}
+}

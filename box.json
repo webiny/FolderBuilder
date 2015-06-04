@@ -1,0 +1,7 @@
+{
+	"files": ["structure.php", "bin/stub.php"],
+	"output": "bin/wfb.phar",
+	"stub": true,
+	"main": "bin/stub.php",
+	"chmod": "0755"
+}
