@@ -3,5 +3,9 @@
 	"output": "bin/wfb.phar",
 	"stub": true,
 	"main": "structure.php",
-	"chmod": "0755"
+	"chmod": "0755",
+        "compactors": [
+            "Herrera\\Box\\Compactor\\Json",
+            "Herrera\\Box\\Compactor\\Php"
+        ]
 }
